@@ -1,26 +1,37 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, {useState} from 'react';
+import Cart from './components/Cart';
+import Header from './components/Header';
+import Search from './components/Search';
+import Context from './Context';
+import BookList from './products/BookList';
+import './styles/all.scss';
 
-function App() {
+const App = props => {
+  const [search, setSearch] = useState ('');
+  const [caddy, setCaddy] = useState ([]);
+
+  const initalValue = {
+    books: [],
+    search,
+    setSearch,
+    caddy,
+    setCaddy,
+  };
+
+  // console.log (caddy, 'caddy');
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Context.Provider value={initalValue}>
+      <div className="container">
+        <div className="section">
+          <Header />
+          <Search />
+          <BookList />
+          <Cart />
+        </div>
+      </div>
+      {props.children}
+    </Context.Provider>
   );
-}
-
+};
 export default App;
