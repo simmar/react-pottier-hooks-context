@@ -1,6 +1,13 @@
-import React from 'react';
+import React, {useContext} from 'react';
+import Context from '../Context';
 
 const Cart = () => {
+  const context = useContext (Context);
+  const caddy = context.caddy;
+
+  console.log (caddy, 'cart caddy');
+  console.log (context, 'context');
+
   return (
     <section className="section">
       <h1>Your cart</h1>
@@ -66,41 +73,31 @@ const Cart = () => {
         </tfoot>
 
         <tbody>
-          {/* {this.props.caddy.map ((item, index) => (
-            <tr key={index}>
-              <td>
-                <img src={item.book.cover} alt={item.book.title} />
-              </td>
-              <th className="book-title">{item.book.title}</th>
-              <td className="has-text-center">{item.quantity}</td>
-              <td>{item.book.price} <span>€</span></td>
-              <td>
-                {item.book.price * item.quantity}
-                <span>€</span>
-              </td>
-              <td>
-                <button onClick={() => this.props.onDelete (item)}>
-                  delete
-                </button>
-              </td>
-            </tr>
-          ))} */}
-          <tr>
-            <td>
-              <img />
-            </td>
-            <th className="book-title" />
-            <td className="has-text-center" />
-            <td> <span>€</span></td>
-            <td>
-              <span>€</span>
-            </td>
-            <td>
-              <button>
-                delete
-              </button>
-            </td>
-          </tr>
+          {caddy.map ((item, index) => {
+            return (
+              <tr key={index}>
+                <td>
+                  <img src={item.cover} alt={item.title} />
+                </td>
+                <th className="book-title">
+                  {item.title}
+                </th>
+                <td className="has-text-center">{item.quantity}</td>
+
+                <td className="has-text-center" />
+                <td> {item.price}<span>€</span></td>
+                <td>
+                  <span>€</span>
+                </td>
+                <td>
+                  <button>
+                    delete
+                  </button>
+                </td>
+              </tr>
+            );
+          })}
+
         </tbody>
 
       </table>

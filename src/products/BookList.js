@@ -22,12 +22,18 @@ const BookList = () => {
     items.push (item);
     context.setCaddy (items);
 
-    // let bookExists = this.state.caddy.find (
-    //   item => item.book.isbn === book.isbn
-    // );
+    // console.log (item, 'item');
+    // console.log (items, 'items');
+    // console.log (item.isbn, 'item.isbn');
+    // console.log (context.caddy, 'context.caddy');
+    // console.log (context, 'context');
+
+    // let bookExists = items.find (context.caddy.isbn);
+    // console.log (bookExists);
 
     // if (bookExists) {
-    //   bookExists.quantity++;
+    //   item.quantity++;
+    //   console.log (item, 'item ++');
     // }
   };
 
@@ -46,6 +52,7 @@ const BookList = () => {
               <button
                 onClick={() => {
                   onCaddyAdded (item);
+                  // console.log (item, 'item');
                 }}
               >
                 Ajouter au panier

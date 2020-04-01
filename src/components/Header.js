@@ -1,4 +1,5 @@
 import React from 'react';
+import {Link} from 'react-router-dom';
 
 const Header = () => {
   return (
@@ -9,16 +10,16 @@ const Header = () => {
         aria-label="main navigation"
       >
         <div className="navbar-brand">
-          <div className="navbar-item">
+          <Link to="/" className="navbar-item">
             HARRY POTTIER
-          </div>
+          </Link>
         </div>
 
         <div className="navbar-end">
           <div className="navbar-item">
-            <div className="button is-primary">
+            <Link to="/cart" className="button is-primary">
               Caddy
-            </div>
+            </Link>
           </div>
         </div>
 

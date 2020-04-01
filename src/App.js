@@ -1,4 +1,5 @@
 import React, {useState} from 'react';
+import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 import Cart from './components/Cart';
 import Header from './components/Header';
 import Search from './components/Search';
@@ -18,19 +19,28 @@ const App = props => {
     setCaddy,
   };
 
-  // console.log (caddy, 'caddy');
-
   return (
     <Context.Provider value={initalValue}>
-      <div className="container">
-        <div className="section">
+      <Router>
+        <div className="container">
           <Header />
-          <Search />
-          <BookList />
-          <Cart />
+
+          <div className="section">
+            <Switch>
+              <Route path="/" exact>
+                <Search />
+                <BookList />
+              </Route>
+
+              <Route path="/cart">
+                <Cart />
+              </Route>
+
+            </Switch>
+          </div>
         </div>
-      </div>
-      {props.children}
+        {props.children}
+      </Router>
     </Context.Provider>
   );
 };
