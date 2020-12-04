@@ -7,23 +7,29 @@ import Context from './Context';
 import BookList from './products/BookList';
 import './styles/all.scss';
 
-const App = props => {
-  const [search, setSearch] = useState ('');
-  const [caddy, setCaddy] = useState ([]);
+const App = (props) => {
+  const [search, setSearch] = useState('');
+  const [caddy, setCaddy] = useState([]);
+  const [totalPrice, SetTotal] = useState([]);
+  const [count, setCount] = useState(0);
 
-  const initalValue = {
+  const initialValue = {
     books: [],
     search,
     setSearch,
     caddy,
     setCaddy,
+    totalPrice,
+    SetTotal,
+    count,
+    setCount,
   };
 
   return (
-    <Context.Provider value={initalValue}>
+    <Context.Provider value={initialValue}>
       <Router>
         <div className="container">
-          <Header />
+          <Header caddy="caddy" />
 
           <div className="section">
             <Switch>
@@ -35,7 +41,6 @@ const App = props => {
               <Route path="/cart">
                 <Cart />
               </Route>
-
             </Switch>
           </div>
         </div>

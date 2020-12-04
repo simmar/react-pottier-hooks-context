@@ -2,7 +2,7 @@ import React, {useContext} from 'react';
 import Context from '../Context';
 
 const Search = () => {
-  const context = useContext (Context);
+  const context = useContext(Context);
 
   return (
     <form className="field columns">
@@ -11,8 +11,8 @@ const Search = () => {
           className="input"
           type="text"
           placeholder="Search your books"
-          onChange={event => {
-            context.setSearch (event.target.value);
+          onChange={(event) => {
+            context.setSearch(event.target.value);
           }}
         />
       </div>

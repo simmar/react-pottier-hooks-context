@@ -1,12 +1,32 @@
 import React, {useContext} from 'react';
 import Context from '../Context';
 
-const Cart = () => {
-  const context = useContext (Context);
-  const caddy = context.caddy;
+const Cart = (props) => {
+  const {caddy, totalPrice} = useContext(Context);
 
-  console.log (caddy, 'cart caddy');
-  console.log (context, 'context');
+  // const count = context.count;
+
+  caddy.map((book) => {
+    const totalOneBook = book.price * book.quantity;
+    totalPrice.push(totalOneBook);
+  });
+
+  console.log(caddy, 'caddy before delete');
+
+  const onDelete = (isbn) => {
+    // retirer les objets du panier
+
+    const bookInCart = caddy.find((item) => item.isbn === isbn);
+    if (bookInCart) {
+      let cartList = caddy;
+      cartList.splice(cartList.indexOf(bookInCart), 1);
+    }
+
+    console.log(caddy, 'caddy after delete');
+
+    //  MAJ le pannier count
+    //  MAJ les prix
+  };
 
   return (
     <section className="section">
@@ -38,11 +58,9 @@ const Cart = () => {
             <th />
             <th />
             <th />
+            <th className="has-text-centered">Total</th>
             <th className="has-text-centered">
-              Total
-            </th>
-            <th className="has-text-centered">
-              €{' '}
+              {totalPrice.reduce((a, b) => a + b, 0)} <span></span>
             </th>
             <th className="has-text-centered" />
           </tr>
@@ -50,58 +68,47 @@ const Cart = () => {
             <th />
             <th />
             <th />
-            <th className="has-text-centered">
-              Reduction
-            </th>
-            <th className="has-text-centered">
-              €
-            </th>
+            <th className="has-text-centered">Reduction</th>
+            <th className="has-text-centered">€</th>
             <th className="has-text-centered" />
           </tr>
           <tr>
             <th />
             <th />
             <th />
-            <th className="has-text-centered">
-              Total after reduction
-            </th>
-            <th className="has-text-centered">
-              €
-            </th>
+            <th className="has-text-centered">Total after reduction</th>
+            <th className="has-text-centered">€</th>
             <th className="has-text-centered" />
           </tr>
         </tfoot>
 
         <tbody>
-          {caddy.map ((item, index) => {
+          {caddy.map((book, index) => {
             return (
               <tr key={index}>
                 <td>
-                  <img src={item.cover} alt={item.title} />
+                  <img src={book.cover} alt={book.title} />
                 </td>
-                <th className="book-title">
-                  {item.title}
-                </th>
-                <td className="has-text-center">{item.quantity}</td>
+                <th className="book-title">{book.title}</th>
+                <td className="has-text-center">{book.quantity}</td>
 
-                <td className="has-text-center" />
-                <td> {item.price}<span>€</span></td>
+                <td className="has-text-center">
+                  {book.price}
+                  <span>€</span>
+                </td>
+
                 <td>
+                  {book.price * book.quantity}
                   <span>€</span>
                 </td>
                 <td>
-                  <button>
-                    delete
-                  </button>
+                  <button onClick={() => onDelete(book.isbn)}>delete</button>
                 </td>
               </tr>
             );
           })}
-
         </tbody>
-
       </table>
-
     </section>
   );
 };

@@ -1,7 +1,11 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import {Link} from 'react-router-dom';
+import Context from '../Context';
 
-const Header = () => {
+const Header = (props) => {
+  const context = useContext(Context);
+  const count = context.count;
+
   return (
     <header>
       <nav
@@ -18,11 +22,12 @@ const Header = () => {
         <div className="navbar-end">
           <div className="navbar-item">
             <Link to="/cart" className="button is-primary">
-              Caddy
+              <span>
+                {props.caddy} {count}
+              </span>
             </Link>
           </div>
         </div>
-
       </nav>
     </header>
   );

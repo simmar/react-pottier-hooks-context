@@ -2,57 +2,58 @@ import axios from 'axios';
 import React, {useContext, useEffect, useState} from 'react';
 import Context from '../Context';
 
-const BookList = () => {
-  const context = useContext (Context);
-  const [data, setData] = useState ([]);
+const BookList = (props) => {
+  const context = useContext(Context);
+  const [data, setData] = useState([]);
   const search = context.search;
+  const caddy = context.caddy;
+  const {count, setCount} = useContext(Context);
 
-  useEffect (() => {
+  useEffect(() => {
     const fetchData = async () => {
-      const result = await axios ('http://henri-potier.xebia.fr/books');
-      setData (result.data);
+      const result = await axios('http://henri-potier.xebia.fr/books');
+      setData(result.data);
       context.books = result.data;
     };
 
-    fetchData ();
-  }, []);
+    fetchData();
+  }, [context.books]);
 
-  const onCaddyAdded = item => {
-    let items = context.caddy;
-    items.push (item);
-    context.setCaddy (items);
+  useEffect(() => {
+    context.caddy = caddy;
+  });
 
-    // console.log (item, 'item');
-    // console.log (items, 'items');
-    // console.log (item.isbn, 'item.isbn');
-    // console.log (context.caddy, 'context.caddy');
-    // console.log (context, 'context');
+  const onCaddyAdded = (book) => {
+    const bookExists = caddy.find((item) => item.isbn === book.isbn);
 
-    // let bookExists = items.find (context.caddy.isbn);
-    // console.log (bookExists);
+    if (bookExists) {
+      bookExists.quantity++;
+    } else {
+      book.quantity = 1;
+      caddy.push(book);
+    }
+    localStorage.setItem('caddy', JSON.stringify(caddy));
 
-    // if (bookExists) {
-    //   item.quantity++;
-    //   console.log (item, 'item ++');
-    // }
+    console.log('caddy booklist', caddy);
   };
 
   return (
     <div className="columns is-multiline">
+      {<div>Caddy {count}</div>}
       {data
-        .filter (item => {
-          return item.title.toLowerCase ().includes (search.toLowerCase ());
+        .filter((item) => {
+          return item.title.toLowerCase().includes(search.toLowerCase());
         })
-        .map (item => {
+        .map((book) => {
           return (
-            <div className="column is-one-quarter" key={item.isbn}>
-              <div className="book-title">{item.title}</div>
-              <img src={item.cover} alt={item.title} />
-              <div>{item.price} €</div>
+            <div className="column is-one-quarter" key={book.isbn}>
+              <div className="book-title">{book.title}</div>
+              <img src={book.cover} alt={book.title} />
+              <div>{book.price} €</div>
               <button
                 onClick={() => {
-                  onCaddyAdded (item);
-                  // console.log (item, 'item');
+                  onCaddyAdded(book);
+                  setCount(count + 1);
                 }}
               >
                 Ajouter au panier
@@ -60,8 +61,8 @@ const BookList = () => {
             </div>
           );
         })}
-
     </div>
   );
 };
+
 export default BookList;
