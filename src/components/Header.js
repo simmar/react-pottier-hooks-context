@@ -1,10 +1,9 @@
 import React, {useContext} from 'react';
 import {Link} from 'react-router-dom';
-import Context from '../Context';
+import {CaddyContext} from '../Context';
 
 const Header = (props) => {
-  const context = useContext(Context);
-  const count = context.count;
+  const {count} = useContext(CaddyContext);
 
   return (
     <header>

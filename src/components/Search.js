@@ -1,8 +1,8 @@
 import React, {useContext} from 'react';
-import Context from '../Context';
+import {CaddyContext} from '../Context';
 
 const Search = () => {
-  const context = useContext(Context);
+  const {search, setSearch} = useContext(CaddyContext);
 
   return (
     <form className="field columns">
@@ -10,10 +10,11 @@ const Search = () => {
         <input
           className="input"
           type="text"
-          placeholder="Search your books"
-          onChange={(event) => {
-            context.setSearch(event.target.value);
+          placeholder="Chercher"
+          onChange={(e) => {
+            setSearch(e.target.value);
           }}
+          value={search}
         />
       </div>
     </form>

@@ -1,28 +1,27 @@
 import React, {useContext} from 'react';
-import Context from '../Context';
+import {CaddyContext} from '../Context';
 
 const Cart = (props) => {
-  const {caddy, totalPrice} = useContext(Context);
-
-  // const count = context.count;
+  const {caddy, totalPrice} = useContext(CaddyContext);
 
   caddy.map((book) => {
     const totalOneBook = book.price * book.quantity;
     totalPrice.push(totalOneBook);
+    return null;
   });
-
-  console.log(caddy, 'caddy before delete');
 
   const onDelete = (isbn) => {
     // retirer les objets du panier
 
     const bookInCart = caddy.find((item) => item.isbn === isbn);
+    console.log('bookInCart', bookInCart);
+
     if (bookInCart) {
-      let cartList = caddy;
-      cartList.splice(cartList.indexOf(bookInCart), 1);
+      // let cartList = caddy;
+      caddy.splice(caddy.indexOf(bookInCart), 1);
     }
 
-    console.log(caddy, 'caddy after delete');
+    console.log('caddy', caddy);
 
     //  MAJ le pannier count
     //  MAJ les prix

@@ -1,31 +1,27 @@
 import axios from 'axios';
 import React, {useContext, useEffect, useState} from 'react';
-import Context from '../Context';
+import {CaddyContext} from '../Context';
 
 const BookList = (props) => {
-  const context = useContext(Context);
   const [data, setData] = useState([]);
-  const search = context.search;
-  const caddy = context.caddy;
-  const {count, setCount} = useContext(Context);
+  const {caddy, search, count, setCount} = useContext(CaddyContext);
 
   useEffect(() => {
     const fetchData = async () => {
       const result = await axios('http://henri-potier.xebia.fr/books');
       setData(result.data);
-      context.books = result.data;
+      CaddyContext.books = result.data;
     };
 
     fetchData();
-  }, [context.books]);
+  }, []);
 
   useEffect(() => {
-    context.caddy = caddy;
+    CaddyContext.caddy = caddy;
   });
 
   const onCaddyAdded = (book) => {
     const bookExists = caddy.find((item) => item.isbn === book.isbn);
-
     if (bookExists) {
       bookExists.quantity++;
     } else {
@@ -33,8 +29,6 @@ const BookList = (props) => {
       caddy.push(book);
     }
     localStorage.setItem('caddy', JSON.stringify(caddy));
-
-    console.log('caddy booklist', caddy);
   };
 
   return (
