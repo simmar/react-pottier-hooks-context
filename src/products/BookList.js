@@ -10,15 +10,11 @@ const BookList = (props) => {
     const fetchData = async () => {
       const result = await axios('http://henri-potier.xebia.fr/books');
       setData(result.data);
-      CaddyContext.books = result.data;
+      // CaddyContext.books = result.data;
     };
 
     fetchData();
   }, []);
-
-  useEffect(() => {
-    CaddyContext.caddy = caddy;
-  });
 
   const onCaddyAdded = (book) => {
     const bookExists = caddy.find((item) => item.isbn === book.isbn);
@@ -33,7 +29,6 @@ const BookList = (props) => {
 
   return (
     <div className="columns is-multiline">
-      {<div>Caddy {count}</div>}
       {data
         .filter((item) => {
           return item.title.toLowerCase().includes(search.toLowerCase());

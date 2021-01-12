@@ -1,12 +1,15 @@
-import React, {createContext, useState} from 'react';
+import React, {createContext, useCallback, useState} from 'react';
 
 export const CaddyContext = createContext();
 
 const Context = (props) => {
   const [search, setSearch] = useState('');
   const [caddy, setCaddy] = useState([]);
-  const [totalPrice, SetTotal] = useState([]);
   const [count, setCount] = useState(0);
+
+  const updateCaddyItems = useCallback((items) => {
+    setCaddy([...caddy, items]);
+  });
 
   return (
     <CaddyContext.Provider
@@ -15,10 +18,9 @@ const Context = (props) => {
         setSearch,
         caddy,
         setCaddy,
-        totalPrice,
-        SetTotal,
         count,
         setCount,
+        updateCaddyItems,
       }}
     >
       {props.children}
