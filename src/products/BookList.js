@@ -1,31 +1,37 @@
 import axios from 'axios';
-import React, {useContext, useEffect, useState} from 'react';
+import React, {useCallback, useContext, useEffect, useState} from 'react';
 import {CaddyContext} from '../Context';
 
 const BookList = (props) => {
   const [data, setData] = useState([]);
-  const {caddy, search, count, setCount} = useContext(CaddyContext);
+  const {caddy, search, count, setCount, updateCartItemsCount} = useContext(
+    CaddyContext
+  );
 
   useEffect(() => {
     const fetchData = async () => {
       const result = await axios('http://henri-potier.xebia.fr/books');
       setData(result.data);
-      // CaddyContext.books = result.data;
     };
 
     fetchData();
   }, []);
 
-  const onCaddyAdded = (book) => {
-    const bookExists = caddy.find((item) => item.isbn === book.isbn);
-    if (bookExists) {
-      bookExists.quantity++;
-    } else {
-      book.quantity = 1;
-      caddy.push(book);
-    }
-    localStorage.setItem('caddy', JSON.stringify(caddy));
-  };
+  const onCaddyAdded = useCallback(
+    (book) => {
+      const bookExists = caddy.find((item) => item.isbn === book.isbn);
+
+      if (bookExists) {
+        bookExists.quantity++;
+        updateCartItemsCount();
+      } else {
+        book.quantity = 1;
+        caddy.push(book);
+      }
+      //localStorage.setItem('caddy', JSON.stringify(caddy));
+    },
+    [caddy, count, setCount, updateCartItemsCount]
+  );
 
   return (
     <div className="columns is-multiline">
@@ -33,16 +39,16 @@ const BookList = (props) => {
         .filter((item) => {
           return item.title.toLowerCase().includes(search.toLowerCase());
         })
-        .map((book) => {
+        .map((book, index) => {
           return (
-            <div className="column is-one-quarter" key={book.isbn}>
+            <div className="column is-one-quarter" key={index}>
               <div className="book-title">{book.title}</div>
               <img src={book.cover} alt={book.title} />
               <div>{book.price} €</div>
               <button
+                className="button is-primary"
                 onClick={() => {
                   onCaddyAdded(book);
-                  setCount(count + 1);
                 }}
               >
                 Ajouter au panier

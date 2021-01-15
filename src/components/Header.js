@@ -22,7 +22,7 @@ const Header = (props) => {
           <div className="navbar-item">
             <Link to="/cart" className="button is-primary">
               <span>
-                {props.caddy} {count}
+                {props.caddy} {count > 0 && <span>{count}</span>}
               </span>
             </Link>
           </div>
