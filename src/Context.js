@@ -7,6 +7,7 @@ const Context = (props) => {
   const [search, setSearch] = useState('');
   const [caddy, setCaddy] = useState([]);
   const [count, setCount] = useState(0);
+  const [status, setStatus] = useState(false);
 
   const updateCaddyItems = useCallback(() => {
     setCaddy([...caddy]);
@@ -15,6 +16,7 @@ const Context = (props) => {
   const updateCartItemsCount = useCallback(() => {
     const count = caddy.reduce((value, item) => value + item.quantity, 0);
     setCount(count);
+    console.log('caddy.value', caddy.value);
   }, [caddy]);
 
   return (
@@ -28,6 +30,8 @@ const Context = (props) => {
         setCount,
         updateCaddyItems,
         updateCartItemsCount,
+        status,
+        setStatus,
       }}
     >
       {props.children}

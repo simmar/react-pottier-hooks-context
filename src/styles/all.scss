@@ -1,6 +1,10 @@
 @charset "utf-8";
+@import '~@fortawesome/fontawesome-free/scss/fontawesome';
+@import '~@fortawesome/fontawesome-free/scss/solid';
 
 @import '~bulma';
+// Bulma spacing helper
+@import '../../node_modules/bulma-helper-spacing/spacing';
 
 // . Import your custom css
 @import 'global';

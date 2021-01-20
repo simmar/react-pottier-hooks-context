@@ -1,8 +1,11 @@
-import React, {useState} from 'react';
+import React, {useContext, useState} from 'react';
 import {Link} from 'react-router-dom';
+import {CaddyContext} from '../Context';
 
-const Layout = () => {
+const Layout = (props) => {
   const [user, setUser] = useState([]);
+  const {status, setStatus} = useContext(CaddyContext);
+
   const handleChange = (e) => {
     const value = e.target.value;
     setUser({
@@ -12,12 +15,21 @@ const Layout = () => {
   };
 
   const handleSubmit = () => {
-    sessionStorage.setItem('value', JSON.stringify(user));
-    // console.log('handleSubmit', user.email);
+    const dataUserObject = JSON.parse(sessionStorage.getItem('value'));
 
-    if (user.email === 'marais.simon@free.fr') {
-      console.log('Youhouuu');
-      window.location = 'http://localhost:3000/Booklist';
+    if ('value' in sessionStorage && sessionStorage.length > 0) {
+      if (
+        dataUserObject.email &&
+        dataUserObject.email &&
+        user.email === 'marais.simon@free.fr'
+      ) {
+        window.location = 'http://localhost:3000/booklist';
+        setStatus(true);
+        console.log('status ', status);
+      } else {
+        setStatus(false);
+        console.log('status ', status);
+      }
     }
   };
   return (
@@ -27,7 +39,7 @@ const Layout = () => {
 
         <div className="field">
           <label className="label" htmlFor="email">
-            Adresse e-mail ou Password
+            Adresse e-mail
             <input
               type="text"
               className="input"
@@ -42,11 +54,16 @@ const Layout = () => {
           </label>
         </div>
 
-        <div className="form-group columns is-gapless">
-          <p
-            className="button is-primary column is-full"
-            onClick={handleSubmit}
-          >
+        <div className="error has-margin-bottom-3">
+          {!status === true ? (
+            <p>Adresse e-mail incorrecte ou non renseignée</p>
+          ) : (
+            ''
+          )}
+        </div>
+
+        <div className="form-group columns">
+          <p className="bd-notification column is-full" onClick={handleSubmit}>
             Continuer
           </p>
         </div>
@@ -54,9 +71,13 @@ const Layout = () => {
       <div className="a-divider a-divider-break">
         <h5>Nouveau chez Potter ?</h5>
       </div>
-      <Link to="/FormRegister" className="button is-primary">
-        <span className="button is-primary">Nouveau chez Potter?</span>
-      </Link>
+      <div className="columns">
+        <div className="column has-text-centered">
+          <Link to="/FormRegister" className="button is-primary">
+            Nouveau chez Potter?
+          </Link>
+        </div>
+      </div>
     </div>
   );
 };

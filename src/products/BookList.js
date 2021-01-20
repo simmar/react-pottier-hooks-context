@@ -41,7 +41,7 @@ const BookList = (props) => {
         })
         .map((book, index) => {
           return (
-            <div className="column is-one-quarter" key={index}>
+            <div className="column is-one-quarter item" key={index}>
               <div className="book-title">{book.title}</div>
               <img src={book.cover} alt={book.title} />
               <div>{book.price} €</div>

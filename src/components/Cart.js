@@ -1,5 +1,6 @@
 import axios from 'axios';
 import React, {useCallback, useContext, useEffect, useState} from 'react';
+import {Link} from 'react-router-dom';
 import {APIURL, CaddyContext} from '../Context';
 
 const Cart = (props) => {
@@ -89,7 +90,6 @@ const Cart = (props) => {
   const deleteItemFromCart = useCallback(
     (isbn) => {
       const bookInCart = caddy.find((item) => item.isbn === isbn);
-      console.log('bookInCart', bookInCart);
 
       if (bookInCart) {
         let cartList = caddy;
@@ -209,7 +209,12 @@ const Cart = (props) => {
           </table>
         </>
       ) : (
-        <p>Votre panier est vide !</p>
+        <p>
+          Votre panier est vide ! Retourner à la page
+          <Link to="/booklist">
+            <span className="is-size-4"> produits</span>
+          </Link>
+        </p>
       )}
     </section>
   );
